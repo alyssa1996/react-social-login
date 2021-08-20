@@ -1,14 +1,21 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Store } from 'redux';
+import { addAge } from '.';
 
-function App() {
+function App(props: {store:Store<{age:number;}>}) {
+  const store = props.store;
+  const state = store.getState();
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+         {state.age}
+         <button onClick={()=>{
+           store.dispatch(addAge());
+         }}> 한해가 지났다</button>
         </p>
         <a
           className="App-link"
