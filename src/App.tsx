@@ -3,13 +3,18 @@ import logo from './logo.svg';
 import './App.css';
 import { Store, Unsubscribe } from 'redux';
 import { addAge } from '.';
+import * as PropTypes from 'prop-types';
 
-class App extends React.Component<{store:Store<{age:number;}>}> {
+class App extends React.Component<{}, {}> {
+
+  public static contextTypes = {
+    store: PropTypes.object
+  };
 
   //private _unsubscribe:Unsubscribe;
 
   componentDidMount(){
-    const store = this.props.store;
+    const store = this.context.store;
     store.subscribe(()=>{
       this.forceUpdate();
     });
@@ -18,7 +23,7 @@ class App extends React.Component<{store:Store<{age:number;}>}> {
     //this._unsubscribe();
   }
   render(){
-    const store = this.props.store;
+    const store = this.context.store;
     const state = store.getState();
     return(
     <div className="App">

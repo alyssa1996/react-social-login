@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import Root from './router';
 import { createStore, Store } from 'redux';
 import App from './App';
+import * as PropTypes from 'prop-types';
 
 //* ACTION TYPE 지정
 const ADD_AGE = 'ADD_AGE';
@@ -31,9 +32,25 @@ function ageApp(state:{age : number;}={age: 0}, action:{type: 'ADD_AGE'}){
 
 const store: Store<{age:number;}> = createStore(ageApp);
 
+class Provider extends React.Component<{store: Store<{age: number;}>}>{
+  static childContextTypes = {
+    store: PropTypes.object
+  };
+  getChildContext(){
+    return{
+      store: this.props.store
+    };
+  }
+  render(){
+    return this.props.children as JSX.Element;
+  }
+}
+
   ReactDOM.render(
     <React.StrictMode>
-      <App store={store}/>
+      <Provider store = {store}>
+        <App/>
+      </Provider>
     </React.StrictMode>,
     document.getElementById('root')
   );
