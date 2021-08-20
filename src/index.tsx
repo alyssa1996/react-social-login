@@ -31,18 +31,13 @@ function ageApp(state:{age : number;}={age: 0}, action:{type: 'ADD_AGE'}){
 
 const store: Store<{age:number;}> = createStore(ageApp);
 
-store.subscribe(render);
-
-function render(){
   ReactDOM.render(
     <React.StrictMode>
       <App store={store}/>
     </React.StrictMode>,
     document.getElementById('root')
   );
-}
 
-render();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

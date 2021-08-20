@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Store } from 'redux';
+import { Store, Unsubscribe } from 'redux';
 import { addAge } from '.';
 
-function App(props: {store:Store<{age:number;}>}) {
-  const store = props.store;
-  const state = store.getState();
-  return (
+class App extends React.Component<{store:Store<{age:number;}>}> {
+
+  //private _unsubscribe:Unsubscribe;
+
+  componentDidMount(){
+    const store = this.props.store;
+    store.subscribe(()=>{
+      this.forceUpdate();
+    });
+  }
+  componentWillUnmount(){
+    //this._unsubscribe();
+  }
+  render(){
+    const store = this.props.store;
+    const state = store.getState();
+    return(
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -27,7 +40,8 @@ function App(props: {store:Store<{age:number;}>}) {
         </a>
       </header>
     </div>
-  );
+    )
+  };
 }
 
 export default App;
